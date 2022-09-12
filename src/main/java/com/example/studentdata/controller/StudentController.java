@@ -1,41 +1,27 @@
 package com.example.studentdata.controller;
 
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.JobParametersInvalidException;
-import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
-import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
-import org.springframework.batch.core.repository.JobRestartException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import com.example.studentdata.entity.Student;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/api")
-@RequiredArgsConstructor
+@RequestMapping("api/v1/students")
 public class StudentController {
+    private static final List<Student> STUDENTS = Arrays.asList();
 
-
-    private final JobLauncher jobLauncher;
-    @Autowired
-    private Job job;
-
-
-    @PostMapping("/importStudent")
-    public void importCsvToDBJob() {
-        JobParameters jobParameters = new JobParametersBuilder()
-                .addLong("startAt", System.currentTimeMillis()).toJobParameters();
-        try {
-            jobLauncher.run(job, jobParameters);
-        } catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException |
-                 JobParametersInvalidException e) {
-            e.printStackTrace();
-        }
+    @GetMapping(path = "{studentId}")
+    public Student getStudent(@PathVariable("studentId") Integer studentId) {
+        return STUDENTS.stream()
+                .filter(student -> studentId.equals(student.getStudentId()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException(
+                        "Student " + studentId + " does not exists"
+                ));
     }
-
 }

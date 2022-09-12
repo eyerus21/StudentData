@@ -1,0 +1,55 @@
+version: "3.8"
+services:
+ springboot-app:
+  image: springboot-app
+  build: .
+  ports:
+    - 9191:9191
+  environment:
+         SPRING_DATASOURCE_URL: jdbc:mysql://docker-mysql:3306/springBatch?autoReconnect=true&useSSL=false
+
+  depends_on:
+    - mysqldb
+ mysqldb:
+    platform: linux/x86_64
+    image: mysql:8.0.29
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: springBatch
+      MYSQL_USER: ea
+      MYSQL_PASSWORD: cs544
+      MYSQL_ROOT_PASSWORD: cs544
+##
+##
+##  springboot-app:
+##    image: springboot-app
+##    build: .
+##
+##    ports:
+##      - 8080:8080
+
+
+
+#version: '3.8'
+#
+#services:
+#  docker-mysql:
+#    platform: linux/x86_64
+#    image: mysql:8.0.29
+#    environment:
+#      - MYSQL_DATABASE=springBatch
+#      - MYSQL_USER=ea
+#      - MYSQL_PASSWORD=cs544
+#    ports:
+#      - 3307:3306
+#
+#  app:
+#    build: .
+#    image: app:latest
+#    ports:
+#      - 9191:9191
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://docker-mysql:3306/springBatch?autoReconnect=true&useSSL=false
+#    depends_on:
+#      - docker-mysql

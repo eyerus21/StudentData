@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class Student {
     @Id
     @GeneratedValue
-    private int Id;
+    private int studentId;
     private String firstName;
     private String lastName;
     private LocalDate dob;
