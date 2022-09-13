@@ -1,5 +1,7 @@
 FROM openjdk:18
 
-COPY target/studentData-0.0.1-SNAPSHOT.jar app.jar
+ADD target/studentData-0.0.1-SNAPSHOT.jar app.jar
+
+#EXPOSE 8081
 
 ENTRYPOINT ["java", "-jar", "/app.jar"]

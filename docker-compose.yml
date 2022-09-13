@@ -1,55 +1,42 @@
-version: "3.8"
+version: '3.9'
+
 services:
- springboot-app:
-  image: springboot-app
-  build: .
-  ports:
-    - 9191:9191
-  environment:
-         SPRING_DATASOURCE_URL: jdbc:mysql://docker-mysql:3306/springBatch?autoReconnect=true&useSSL=false
+  mysql-container:
 
-  depends_on:
-    - mysqldb
- mysqldb:
-    platform: linux/x86_64
-    image: mysql:8.0.29
-    ports:
-      - 3307:3306
+    image: mysql
     environment:
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: springBatch
-      MYSQL_USER: ea
-      MYSQL_PASSWORD: cs544
-      MYSQL_ROOT_PASSWORD: cs544
-##
-##
-##  springboot-app:
-##    image: springboot-app
-##    build: .
-##
-##    ports:
-##      - 8080:8080
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 50s
+      retries: 3
+    restart: on-failure
+
+  springbatch-app:
+    image: springbatch-app:latest
+
+    ports:
+      - "9191:9191"
+    environment:
+      MYSQL_URL: mysql-container
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+
+    # Uncomment this one if you want to build from Dockerfile
+
+    build:
+      context: .
+      dockerfile: "Dockerfile"
+    depends_on:
+      mysql-container:
+        condition: service_healthy
 
 
 
-#version: '3.8'
-#
-#services:
-#  docker-mysql:
-#    platform: linux/x86_64
-#    image: mysql:8.0.29
-#    environment:
-#      - MYSQL_DATABASE=springBatch
-#      - MYSQL_USER=ea
-#      - MYSQL_PASSWORD=cs544
-#    ports:
-#      - 3307:3306
-#
-#  app:
-#    build: .
-#    image: app:latest
-#    ports:
-#      - 9191:9191
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:mysql://docker-mysql:3306/springBatch?autoReconnect=true&useSSL=false
-#    depends_on:
-#      - docker-mysql
+
+
+

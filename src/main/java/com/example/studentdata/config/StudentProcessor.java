@@ -13,7 +13,7 @@ public class StudentProcessor implements ItemProcessor<StudentTemplate,Student> 
     @Override
     public Student process(StudentTemplate studentTemplate) throws Exception {
         LocalDate dob = LocalDate.of(LocalDate.now().getYear()-studentTemplate.getAge(),1,1);
-        Student st = new Student(studentTemplate.getId(),studentTemplate.getFirstName(),studentTemplate.getLastName(),dob);
+        Student st = new Student(studentTemplate.getId(),studentTemplate.getFirstName(),studentTemplate.getLastName(),dob,studentTemplate.getGpa());
         //st.setDob(dob);
         return st;
     }

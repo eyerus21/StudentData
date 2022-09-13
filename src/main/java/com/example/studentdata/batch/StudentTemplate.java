@@ -9,6 +9,7 @@ public class StudentTemplate {
     private String lastName;
     private int age;
 
+    private double gpa;
    // private double gpa;
 
 }

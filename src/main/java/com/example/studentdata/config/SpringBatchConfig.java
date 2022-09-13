@@ -17,6 +17,7 @@ import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
@@ -37,7 +38,7 @@ public class SpringBatchConfig {
     @Bean
     public FlatFileItemReader<StudentTemplate> reader(){
         FlatFileItemReader<StudentTemplate> itemReader= new FlatFileItemReader<>();
-        itemReader.setResource(new FileSystemResource("src/main/resources/sample-data.csv"));
+        itemReader.setResource(new ClassPathResource("sample-data.csv"));
         itemReader.setName("csvReader");
         itemReader.setLinesToSkip(1);
         itemReader.setLineMapper(lineMapper());
@@ -50,7 +51,7 @@ public class SpringBatchConfig {
         DelimitedLineTokenizer lineTokenizer= new DelimitedLineTokenizer();
         lineTokenizer.setDelimiter(",");
         lineTokenizer.setStrict(false);
-        lineTokenizer.setNames("id","firstName","lastName","age");
+        lineTokenizer.setNames("id","firstName","lastName","age","gpa");
 
         BeanWrapperFieldSetMapper<StudentTemplate> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(StudentTemplate.class);

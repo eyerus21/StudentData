@@ -1413,16 +1413,21 @@ JOB_KEY</ColNames>
       <DataType>varchar(255)|0s</DataType>
       <Position>3</Position>
     </column>
-    <column id="387" parent="303" name="last_name">
-      <DataType>varchar(255)|0s</DataType>
+    <column id="387" parent="303" name="gpa">
+      <DataType>double|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <index id="388" parent="303" name="PRIMARY">
+    <column id="388" parent="303" name="last_name">
+      <DataType>varchar(255)|0s</DataType>
+      <Position>5</Position>
+    </column>
+    <index id="389" parent="303" name="PRIMARY">
       <ColNames>student_id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="389" parent="303" name="PRIMARY">
+    <key id="390" parent="303" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
